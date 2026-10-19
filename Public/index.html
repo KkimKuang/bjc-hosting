@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ปฏิทิน BJC Glass ลูกค้าเข้าพบ</title>
+<style>
+:root{--bg:#e6f3e8;--card:#fff;--tx:#1b2430;--mut:#6b7686;--bd:#c9e0cd;--tgi:#1f6feb;--tgi-bg:#e6f0ff;--bgp:#e07b00;--bgp-bg:#fff0dc;--acc:#1f5c3f;--today:#fff6c9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1913;--card:#16251c;--tx:#e8edf3;--mut:#93a0b1;--bd:#2a4034;--tgi:#6aa6ff;--tgi-bg:#17315a;--bgp:#ffb454;--bgp-bg:#4a3210;--acc:#7bd49a;--today:#3a3512}}
+:root[data-theme="dark"]{--bg:#0e1913;--card:#16251c;--tx:#e8edf3;--mut:#93a0b1;--bd:#2a4034;--tgi:#6aa6ff;--tgi-bg:#17315a;--bgp:#ffb454;--bgp-bg:#4a3210;--acc:#7bd49a;--today:#3a3512}
+*{box-sizing:border-box}html{color-scheme:light dark}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Noto Sans Thai","Sarabun",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}.logo{height:46px;width:auto;background:#fff;border-radius:10px;padding:4px 10px;border:1px solid var(--bd);flex:none}
+@media(max-width:560px){.logo{height:36px}h1{font-size:18px!important}}
+h1{font-size:22px;margin:0;color:var(--acc)}.sub{color:var(--mut);font-size:13px}
+button,.btn{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:6px 12px;cursor:pointer}
+button:hover{border-color:var(--acc)}.primary{background:var(--acc);color:var(--card);border-color:var(--acc)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:28px;line-height:1.2;color:var(--acc)}.kpi span{color:var(--mut);font-size:13px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;flex-wrap:wrap}
+.cal-h h2{margin:0;font-size:18px}
+.legend{display:flex;gap:10px;font-size:12px;color:var(--mut)}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+.dow,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow div{text-align:center;font-size:12px;color:var(--mut);padding:4px 0}
+.day{min-height:84px;border:1px solid var(--bd);border-radius:8px;padding:4px;cursor:pointer;overflow:hidden;background:var(--card)}
+.day.out{opacity:.4}.day.today{background:var(--today)}.day.sel{outline:2px solid var(--acc)}
+.day .n{font-size:12px;color:var(--mut)}
+.ev{font-size:11px;line-height:1.3;border-radius:4px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.TGI{background:var(--tgi-bg);color:var(--tgi)}.BGP{background:var(--bgp-bg);color:var(--bgp)}.OTH{background:var(--bd);color:var(--tx)}
+@media(max-width:560px){.day{min-height:52px}.ev{font-size:0;height:6px;padding:0}}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{border-left:4px solid var(--mut);padding:6px 10px;background:var(--bg);border-radius:6px}
+.item.TGI{border-color:var(--tgi);color:var(--tx);background:var(--bg)}.item.BGP{border-color:var(--bgp);color:var(--tx);background:var(--bg)}
+.item .t{font-weight:600}.item .m{font-size:12px;color:var(--mut)}
+h3{margin:0 0 10px;font-size:16px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--mut)}
+.bar i{display:block;width:100%;background:var(--acc);border-radius:4px 4px 0 0;min-height:2px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd);white-space:nowrap}td.w{white-space:normal;min-width:160px}th{color:var(--mut);font-weight:600}
+.empty{padding:30px;text-align:center;color:var(--mut)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+select,input[type=search]{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:5px 8px}
+input[type=search]{flex:1;min-width:200px}
+.note{font-size:12px;color:var(--mut);margin-top:6px}
+dialog{border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx);width:calc(100% - 24px);max-width:520px;padding:16px}dialog::backdrop{background:rgba(0,0,0,.45)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fg label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:2px}.fg .full{grid-column:1/-1}
+.fg input,.fg select,.fg textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px 8px;width:100%}
+.mini{font-size:12px;padding:2px 8px;margin-right:4px}.act{margin-top:4px}
+#msg{margin-bottom:12px;padding:10px 14px;border-radius:8px;background:var(--card);border:1px solid var(--bd);color:var(--tx);display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><img class="logo" alt="BJC Glass" src="logo.png"><div><h1>ปฏิทิน BJC Glass ลูกค้าเข้าพบ</h1><div class="sub" id="upd">กำลังโหลดข้อมูล…</div></div></div>
+  <div id="tools" style="display:none;gap:8px;flex-wrap:wrap">
+    <button class="primary" id="addBtn">＋ เพิ่มการเข้าพบ</button>
+    <button id="tpl">⬇ ดาวน์โหลด Excel (ข้อมูลล่าสุด)</button>
+  </div>
+</header>
+<div id="msg"></div>
+<section class="kpis" id="kpis"></section>
+<div class="grid">
+  <section class="card">
+    <div class="cal-h">
+      <div><button id="prev">‹</button> <button id="today">วันนี้</button> <button id="next">›</button></div>
+      <h2 id="mt"></h2>
+      <div class="legend"><span><i class="dot" style="background:var(--tgi)"></i>TGI</span><span><i class="dot" style="background:var(--bgp)"></i>BGP</span></div>
+    </div>
+    <div class="dow" id="dow"></div><div class="days" id="days"></div>
+  </section>
+  <aside style="display:flex;flex-direction:column;gap:16px">
+    <section class="card"><h3 id="dt">รายละเอียดวันที่เลือก</h3><div class="list" id="detail"></div></section>
+    <section class="card"><h3>กำหนดการถัดไป</h3><div class="list" id="next5"></div></section>
+    <section class="card"><h3>จำนวนครั้งต่อเดือน</h3><div class="bars" id="bars"></div></section>
+  </aside>
+</div>
+<section class="card" style="margin-top:16px">
+  <h3>รายการทั้งหมด</h3>
+  <div class="filters">
+    <select id="fs"><option value="">ทุก Site</option><option>TGI</option><option>BGP</option></select>
+    <select id="fm"><option value="">ทุกเดือน</option></select>
+    <input type="search" id="q" placeholder="ค้นหาลูกค้า / Sales / เหตุผล">
+  </div>
+  <div class="tw"><table><thead><tr><th>วันที่</th><th>ลูกค้า</th><th>Site</th><th>จำนวนผู้เข้าพบ</th><th>ผู้บริหารสูงสุดที่พบ</th><th>Sales</th><th>เหตุผล</th><th>หมายเหตุ</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
+</section>
+</div>
+
+<dialog id="dlg"><h3 id="dlgT">เพิ่มการเข้าพบ</h3>
+<div class="fg">
+<label>วันที่เข้าพบ *<input type="date" id="f_date"></label>
+<label>Site<select id="f_site"><option>TGI</option><option>BGP</option></select></label>
+<label class="full">ลูกค้า *<input id="f_customer"></label>
+<label>จำนวนผู้เข้าพบ (คน)<input type="number" min="0" id="f_n"></label>
+<label>ผู้บริหารสูงสุดที่พบ (ชื่อ/ตำแหน่ง)<input id="f_top"></label>
+<label>Sales<input id="f_sales"></label>
+<label>เหตุผลที่เข้าพบ<input id="f_reason"></label>
+<label class="full">หมายเหตุ<textarea id="f_remark" rows="2"></textarea></label>
+</div>
+<div class="sub" id="dlgE" style="color:#d33;min-height:20px;margin-top:6px"></div>
+<div style="display:flex;justify-content:flex-end;gap:8px"><button id="cancelBtn">ยกเลิก</button><button class="primary" id="saveBtn">บันทึก</button></div>
+</dialog>
+<dialog id="dlgDel"><h3>ลบรายการนี้?</h3><div id="delTxt" class="sub" style="margin-bottom:12px"></div><div style="display:flex;justify-content:flex-end;gap:8px"><button id="delNo">ยกเลิก</button><button class="primary" id="delOk" style="background:#c0392b;border-color:#c0392b">ลบ</button></div></dialog>
+
+<!-- วาง Firebase config ที่คุณให้มาไว้ตรงนี้ -->
+<script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDDg-bB8g4U-E-3yu86lbnslqRogqCJPqA",
+    authDomain: "bjc-glass-customer-visit.firebaseapp.com",
+    databaseURL: "https://bjc-glass-customer-visit-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "bjc-glass-customer-visit",
+    storageBucket: "bjc-glass-customer-visit.firebasestorage.app",
+    messagingSenderId: "429075172123",
+    appId: "1:429075172123:web:0fd229a48a36de5529a1be",
+    measurementId: "G-CPBEPY5C9B"
+  };
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+<script>
+const MONTHS=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+const DOW=["จ","อ","พ","พฤ","ศ","ส","อา"];
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0"), ymd=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
+const now=new Date(), TODAY=ymd(now.getFullYear(),now.getMonth(),now.getDate());
+let rows=[], view={y:now.getFullYear(),m:now.getMonth()}, sel=TODAY, canEdit=false;
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cls=s=>["TGI","BGP"].includes(String(s).trim().toUpperCase())?String(s).trim().toUpperCase():"OTH";
+const fmt=d=>{const[a,b,c]=d.split("-");return `${+c} ${MONTHS[+b-1].slice(0,3)}${MONTHS[+b-1].length>5?"":""} ${a}`};
+function msg(t){const m=$("msg");m.textContent=t;m.style.display=t?"block":"none"}
+
+/* ---------- Render (เหมือนเดิม) ---------- */
+function renderKpis(){
+  const ym=`${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+  const end=new Date(now.getTime()+30*864e5), endS=ymd(end.getFullYear(),end.getMonth(),end.getDate());
+  const sum=a=>a.reduce((s,r)=>s+(Number(r.n)||0),0);
+  const mo=rows.filter(r=>r.date.startsWith(ym)), up=rows.filter(r=>r.date>=TODAY&&r.date<=endS);
+  const k=[[rows.length,"การเข้าพบทั้งปี"],[mo.length,"เดือนนี้"],[up.length,"30 วันข้างหน้า"],[new Set(rows.map(r=>r.customer.toLowerCase())).size,"ลูกค้า (ไม่ซ้ำ)"],[sum(rows),"ผู้เข้าพบรวม (คน)"],[rows.filter(r=>cls(r.site)==="TGI").length+" / "+rows.filter(r=>cls(r.site)==="BGP").length,"TGI / BGP"]];
+  $("kpis").innerHTML=k.map(([v,l])=>`<div class="card kpi"><b>${v}</b><span>${l}</span></div>`).join("");
+}
+function renderCal(){
+  $("mt").textContent=`${MONTHS[view.m]} ${view.y}`;
+  $("dow").innerHTML=DOW.map(d=>`<div>${d}</div>`).join("");
+  const first=new Date(view.y,view.m,1), off=(first.getDay()+6)%7, start=new Date(view.y,view.m,1-off);
+  let h="";
+  for(let i=0;i<42;i++){
+    const d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i), s=ymd(d.getFullYear(),d.getMonth(),d.getDate());
+    if(i>=35&&d.getMonth()!==view.m)break;
+    const ev=rows.filter(r=>r.date===s);
+    h+=`<div class="day${d.getMonth()!==view.m?" out":""}${s===TODAY?" today":""}${s===sel?" sel":""}" data-d="${s}"><div class="n">${d.getDate()}</div>${ev.slice(0,3).map(e=>`<div class="ev ${cls(e.site)}" title="${esc(e.customer)}">${esc(e.customer)}</div>`).join("")}${ev.length>3?`<div class="n">+${ev.length-3}</div>`:""}</div>`;
+  }
+  $("days").innerHTML=h;
+  document.querySelectorAll(".day").forEach(el=>el.onclick=()=>{sel=el.dataset.d;renderCal();renderDetail()});
+}
+const card=r=>`<div class="item ${cls(r.site)}"><div class="t">${esc(r.customer)} <span class="m">· ${esc(r.site)}</span></div><div class="m">${fmt(r.date)}${r.n!==""?` · ${esc(r.n)} คน`:""}${r.top?` · ${esc(r.top)}`:""}</div>${r.sales?`<div class="m">Sales: ${esc(r.sales)}</div>`:""}${r.reason?`<div class="m">เหตุผล: ${esc(r.reason)}</div>`:""}${r.remark?`<div class="m">หมายเหตุ: ${esc(r.remark)}</div>`:""}</div>`;
+function renderDetail(){
+  const ev=rows.filter(r=>r.date===sel);
+  $("dt").textContent="วันที่ "+fmt(sel);
+  $("detail").innerHTML=ev.length?ev.map(card).join(""):`<div class="m sub">ไม่มีนัดหมายในวันนี้</div>`;
+  const up=rows.filter(r=>r.date>=TODAY).slice(0,5);
+  $("next5").innerHTML=up.length?up.map(card).join(""):`<div class="sub">ไม่มีนัดหมายที่จะมาถึง</div>`;
+  const c=Array(12).fill(0);rows.forEach(r=>{if(+r.date.slice(0,4)===view.y)c[+r.date.slice(5,7)-1]++});
+  const mx=Math.max(1,...c);
+  $("bars").innerHTML=c.map((v,i)=>`<div class="bar" title="${MONTHS[i]}: ${v}">${v||""}<i style="height:${v/mx*80}px"></i><span>${i+1}</span></div>`).join("");
+}
+function renderTable(){
+  const s=$("fs").value,m=$("fm").value,q=$("q").value.toLowerCase();
+  const f=rows.filter(r=>(!s||cls(r.site)===s)&&(!m||r.date.slice(0,7)===m)&&(!q||Object.values(r).join(" ").toLowerCase().includes(q)));
+  $("tb").innerHTML=f.length?f.map(r=>`<tr><td>${fmt(r.date)}</td><td>${esc(r.customer)}</td><td><span class="ev ${cls(r.site)}" style="font-size:12px;font-weight:600">${esc(r.site)}</span></td><td>${esc(r.n)}</td><td>${esc(r.top)}</td><td>${esc(r.sales)}</td><td class="w">${esc(r.reason)}</td><td class="w">${esc(r.remark)}</td><td>${acts(r)}</td></tr>`).join(""):`<tr><td colspan="9" class="empty">ไม่พบข้อมูล</td></tr>`;
+  const ms=[...new Set(rows.map(r=>r.date.slice(0,7)))],cur=$("fm").value;
+  $("fm").innerHTML=`<option value="">ทุกเดือน</option>`+ms.map(x=>`<option value="${x}"${x===cur?" selected":""}>${MONTHS[+x.slice(5)-1]} ${x.slice(0,4)}</option>`).join("");
+}
+function renderAll(){rows.forEach(r=>r.id=r.id||uid());renderKpis();renderCal();renderDetail();renderTable();if(!rows.length)msg(canEdit?"ยังไม่มีข้อมูล — กด “＋ เพิ่มการเข้าพบ” เพื่อเริ่มต้น":"ยังไม่มีข้อมูลในระบบ")
+  else msg(window.flash||"")}
+
+/* ---------- Add / edit / delete ---------- */
+function uid(){return "r"+Math.random().toString(36).slice(2,10)}
+function acts(r){return `<button class="mini" data-ed="${r.id}">✎ แก้ไข</button><button class="mini" data-del="${r.id}">🗑 ลบ</button>`}
+const LS="bjc_visits_v1",PWK="bjc_pass";let stamp=null;
+const sortRows=a=>a.sort((x,y)=>x.date.localeCompare(y.date)||String(x.customer).localeCompare(String(y.customer)));
+function setUpd(){$("upd").textContent=(stamp?`อัปเดตล่าสุด: ${new Date(stamp).toLocaleString("th-TH")} · `:"")+`${rows.length} รายการ`+(/*local*/ false?" · โหมดทดลอง (เก็บในเบราว์เซอร์นี้)":"")}
+
+/* ---------- Local fallback (ถ้า Firebase ใช้ไม่ได้) ---------- */
+function loadLocal(){
+  try{
+    rows=JSON.parse(localStorage.getItem(LS)||"[]");
+    stamp=localStorage.getItem(LS+"_t");
+    sortRows(rows);setUpd();renderAll();
+  }catch(e){$("upd").textContent="โหลดข้อมูลไม่สำเร็จ";msg("โหลด localStorage ไม่สำเร็จ: "+(e.message||e))}
+}
+async function opLocal(body,text){
+  const prev=rows.map(r=>r);
+  rows=body.action==="upsert"?(rows.some(r=>r.id===body.row.id)?rows.map(r=>r.id===body.row.id?body.row:r):[...rows,body.row]):rows.filter(r=>r.id!==body.id);
+  sortRows(rows);window.flash=text;renderAll();
+  try{
+    stamp=new Date().toISOString();localStorage.setItem(LS,JSON.stringify(rows));localStorage.setItem(LS+"_t",stamp);setUpd();return;
+  }catch(e){rows=prev;window.flash="";renderAll();msg("บันทึกไม่สำเร็จ: "+(e.message||e))}
+}
+
+/* ---------- Firebase Realtime DB integration ---------- */
+let fbApp=null, fbAuth=null, fbDb=null, fbRef=null;
+function initFirebase(){
+  try{
+    fbApp = firebase.initializeApp(FIREBASE_CONFIG);
+    fbAuth = firebase.auth();
+    fbDb = firebase.database();
+  }catch(e){
+    console.error("Firebase init error", e);
+    msg("Firebase init error: "+e.message);
+    // fallback to local
+    canEdit=true; $("tools").style.display="flex"; loadLocal();
+    return;
+  }
+  // sign-in anonymously so we can allow writes in rules
+  fbAuth.signInAnonymously().then(() => {
+    canEdit=true;
+    $("tools").style.display="flex";
+    startRealtimeListener();
+  }).catch(err=>{
+    console.warn("Anonymous sign-in failed:", err);
+    msg("เชื่อมต่อ Firebase ไม่สำเร็จ: "+err.message);
+    // fallback to local
+    canEdit=true; $("tools").style.display="flex"; loadLocal();
+  });
+}
+
+function startRealtimeListener(){
+  try{
+    fbRef = fbDb.ref('visits');
+    // on value -> rebuild rows
+    fbRef.on('value', snapshot=>{
+      const data = snapshot.val() || {};
+      rows = Object.keys(data).map(k=>{
+        const r = data[k] || {};
+        return {
+          id: k,
+          date: r.date||"",
+          customer: r.customer||"",
+          site: r.site||"",
+          n: r.n===undefined? "": r.n,
+          top: r.top||"",
+          sales: r.sales||"",
+          reason: r.reason||"",
+          remark: r.remark||"",
+          updatedAt: r.updatedAt ? new Date(r.updatedAt).toISOString() : null
+        };
+      });
+      // find latest updatedAt
+      let latest = null;
+      rows.forEach(r=>{ if(r.updatedAt){ const t=new Date(r.updatedAt).getTime(); if(!latest || t>latest) latest=t }});
+      stamp = latest ? new Date(latest).toISOString() : null;
+      sortRows(rows); setUpd(); renderAll();
+    });
+  }catch(e){
+    console.error("startRealtimeListener error", e);
+    msg("ไม่สามารถฟังข้อมูล realtime: "+(e.message||e));
+    loadLocal();
+  }
+}
+
+async function opFirebase(body,text){
+  const prev=rows.map(r=>r);
+  try{
+    if(body.action==="upsert"){
+      const row = {...body.row};
+      // write with server timestamp
+      await fbDb.ref('visits/'+row.id).set({...row, updatedAt: firebase.database.ServerValue.TIMESTAMP});
+      window.flash=text;
+      return;
+    } else if(body.action==="delete"){
+      await fbDb.ref('visits/'+body.id).remove();
+      window.flash=text;
+      return;
+    }
+  }catch(e){
+    rows=prev;window.flash="";renderAll();msg("บันทึกไม่สำเร็จ: "+(e.message||e));
+  }
+}
+
+/* op wrapper decides firebase vs local */
+async function op(body,text){
+  if(fbDb) return opFirebase(body,text);
+  return opLocal(body,text);
+}
+
+/* ---------- Form handling (เหมือนเดิม) ---------- */
+const FIELDS=["date","customer","site","n","top","sales","reason","remark"],F=k=>$("f_"+k);let editId=null;
+function openForm(id){
+  editId=id||null;const r=rows.find(x=>x.id===id)||{date:sel,customer:"",site:"TGI",n:"",top:"",sales:"",reason:"",remark:""};
+  FIELDS.forEach(k=>F(k).value=r[k]??"");$("dlgT").textContent=id?"แก้ไขการเข้าพบ":"เพิ่มการเข้าพบ";$("dlgE").textContent="";$("dlg").showModal();
+}
+$("addBtn").onclick=()=>openForm();
+$("cancelBtn").onclick=()=>$("dlg").close();
+$("saveBtn").onclick=async()=>{
+  const o={};FIELDS.forEach(k=>o[k]=F(k).value.trim());o.n=o.n===""?"":Number(o.n);
+  if(!o.date||!o.customer){$("dlgE").textContent="กรุณากรอกวันที่และชื่อลูกค้า";return}
+  const row={...o,id:editId||uid()};
+  sel=o.date;view={y:+o.date.slice(0,4),m:+o.date.slice(5,7)-1};$("dlg").close();
+  await op({action:"upsert",row},editId?"✓ แก้ไขข้อมูลแล้ว":"✓ เพิ่มข้อมูลแล้ว");
+};
+let delId=null;
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-ed],[data-del]");if(!t)return;
+  if(t.dataset.ed){openForm(t.dataset.ed);return}
+  const r=rows.find(x=>x.id===t.dataset.del);if(!r)return;
+  delId=r.id;$("delTxt").textContent=`${fmt(r.date)} · ${r.customer} (${r.site})`;$("dlgDel").showModal();
+});
+$("delNo").onclick=()=>$("dlgDel").close();
+$("delOk").onclick=async()=>{const id=delId;$("dlgDel").close();await op({action:"delete",id},"✓ ลบข้อมูลแล้ว")};
+
+/* ---------- Controls ---------- */
+$("prev").onclick=()=>{view.m--;if(view.m<0){view.m=11;view.y--}renderCal()};
+$("next").onclick=()=>{view.m++;if(view.m>11){view.m=0;view.y++}renderCal()};
+$("today").onclick=()=>{view={y:now.getFullYear(),m:now.getMonth()};sel=TODAY;renderCal();renderDetail()};
+["fs","fm"].forEach(i=>$(i).onchange=renderTable);$("q").oninput=renderTable;
+$("tpl").onclick=()=>{
+  const head=["Date of visit","Customer","Site visit","No. of customers visit","Highest position visit (Name/Position)","Sales person","Reason to visit","Remark"];
+  const body=rows.map(r=>{const[y,m,d]=r.date.split("-").map(Number);return[new Date(y,m-1,d,12),r.customer,r.site,r.n,r.top,r.sales,r.reason,r.remark]});
+  const ws=XLSX.utils.aoa_to_sheet([head,...body],{cellDates:true});
+  for(let i=1;i<=body.length;i++){const c=ws["A"+(i+1)];if(c)c.z="d-mmm-yy"}
+  ws["!cols"]=[{wch:12},{wch:28},{wch:10},{wch:12},{wch:34},{wch:16},{wch:30},{wch:30}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"List");XLSX.writeFile(wb,"2026_customer_visit_list.xlsx",{cellDates:true});
+};
+
+/* ---------- Start ---------- */
+// init Firebase if config exists
+if(typeof FIREBASE_CONFIG==="object" && FIREBASE_CONFIG && Object.keys(FIREBASE_CONFIG).length>0){
+  initFirebase();
+} else {
+  // fallback local mode
+  canEdit=true;
+  $("tools").style.display="flex";
+  window.flash="โหมดทดลอง: ข้อมูลเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น — ตั้งค่า FIREBASE_CONFIG เพื่อแชร์ข้อมูลทุกเครื่อง";
+  renderAll();
+  loadLocal();
+}
+
+// refresh local view if no dialogs open (firebase listener handles realtime)
+setInterval(()=>{ if(!document.querySelector("dialog[open]")) { if(!fbDb) loadLocal(); } },30000);
+</script>
+</body>
+</html>
